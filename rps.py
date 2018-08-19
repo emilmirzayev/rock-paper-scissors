@@ -108,7 +108,7 @@ for i in range(1000):
         ai.winCount += 1
     ai.gamesPlayed += 1
     
-    ai.update_transition_matrix(n_states = 3)
+    ai.update_transition_matrix(n_states = 3)                   # Adding this manually so that, we can have a custom game :)
     ai.process_move(user_move)
     ai.lastUserMove = user_move
 
