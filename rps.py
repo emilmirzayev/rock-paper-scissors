@@ -89,29 +89,33 @@ class User:
 ai = AI()
 
 # Testing the algorithm on dummy user which has biased decision making. AI will soon adapt itself to playstyle
+def main():
+    for i in range(1000):
+        user_move = np.random.choice(CHOICES, p = [0.05, 0.05, 0.9])            # Dummy user will mostly play Paper
+        
+        ai.predict()
+        ai.make_move()
+        ai_move = ai.move
+        result = user_move + ai_move
+        if RESULTS[result] == 0:
+            print("Game is tie")
+            ai.tieCount += 1
+        elif RESULTS[result] == 1:
+            print("User won")
+            ai.lostCount += 1
+        else:
+            print("AI won")
+            ai.winCount += 1
+        ai.gamesPlayed += 1
+        
+        ai.update_transition_matrix(n_states = 3)                   # Adding this manually so that, we can have a custom game :)
+        ai.process_move(user_move)
+        ai.lastUserMove = user_move
 
-for i in range(1000):
-    user_move = np.random.choice(CHOICES, p = [0.05, 0.05, 0.9])            # Dummy user will mostly play Paper
-    
-    ai.predict()
-    ai.make_move()
-    ai_move = ai.move
-    result = user_move + ai_move
-    if RESULTS[result] == 0:
-        print("Game is tie")
-        ai.tieCount += 1
-    elif RESULTS[result] == 1:
-        print("User won")
-        ai.lostCount += 1
-    else:
-        print("AI won")
-        ai.winCount += 1
-    ai.gamesPlayed += 1
-    
-    ai.update_transition_matrix(n_states = 3)                   # Adding this manually so that, we can have a custom game :)
-    ai.process_move(user_move)
-    ai.lastUserMove = user_move
+    print("Games played", ai.gamesPlayed, " Games won", ai.winCount)
+    print("Transition matrix \n")
+    for row in ai.M: print(' '.join('{0:.2f}'.format(x) for x in row))
 
-print("Games played", ai.gamesPlayed, " Games won", ai.winCount)
-print("Transition matrix \n")
-for row in ai.M: print(' '.join('{0:.2f}'.format(x) for x in row))
+
+if __name__ == "__main__":
+    main()
