@@ -16,7 +16,7 @@ class AI:
         self.lastGameResult = ""
         self.prediction = ""
         self.move = ""
-        self.history = [0,1,2,0,1,2,0,1,2]                      # Generating some values to fill the transition matrix. Non-relevant
+        self.history = []                      # Generating some values to fill the transition matrix. Non-relevant
         self.M = [[1/3, 1/3, 1/3],                              # Initial transition matrix. All outcomes are equally probable
                   [1/3, 1/3, 1/3],
                   [1/3, 1/3, 1/3]]
@@ -91,7 +91,7 @@ ai = AI()
 # Testing the algorithm on dummy user which has biased decision making. AI will soon adapt itself to playstyle
 def main():
     for i in range(1000):
-        user_move = np.random.choice(CHOICES, p = [0.05, 0.05, 0.9])            # Dummy user will mostly play Paper
+        user_move = np.random.choice(CHOICES, p = [0.03, 0.28, 0.69])            # Dummy user will mostly play Paper
         
         ai.predict()
         ai.make_move()
@@ -107,9 +107,8 @@ def main():
             print("AI won")
             ai.winCount += 1
         ai.gamesPlayed += 1
-        
-        ai.update_transition_matrix(n_states = 3)                   # Adding this manually so that, we can have a custom game :)
         ai.process_move(user_move)
+        ai.update_transition_matrix(n_states = 3)                   # Adding this manually so that, we can have a custom game :)
         ai.lastUserMove = user_move
 
     print("Games played", ai.gamesPlayed, " Games won", ai.winCount)
