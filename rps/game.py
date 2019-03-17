@@ -41,7 +41,10 @@ class AI:
         # Remember past user moves
         move_as_int = self.moveDict[userMove]
         self.history.append(move_as_int)
-        self.lastUserMove = userMove
+        if self.difficulty != 3:
+            self.lastUserMove = userMove
+        else:
+            self.lastUserMove = self.history[-2:]
         self._update_transition_matrix()
         
     def _update_transition_matrix(self):
@@ -82,7 +85,7 @@ class AI:
     def _transition_matrix_sec_order(self):
         
         sequence = self.history
-        M = np.zeros((len(sequence)**2, len(sequence)))
+        M = np.zeros((9,3))
         permutations = list(product(sequence, repeat=2))
 
         def triplewise(iterable):
